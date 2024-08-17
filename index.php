@@ -1,44 +1,69 @@
 <?php
+require 'src/controller/RotasController.php';
+require 'src/controller/AdminController.php';
+require 'src/controller/EventosController.php';
+require 'src/controller/ErroController.php';
+
+$CAMINHO_BASE = '/gerenciadorEventos';
 
 $requisicao = $_SERVER['REQUEST_URI'];
-switch ($requisicao) {
+//echo $requisicao;
+try {
+  switch ($requisicao) {
     //----------------- Eventos ------------------------------
-    //API - Requer a autenticação da API (Decidir qual vai ser)
-    case '/api/eventos/listar':
+    case $CAMINHO_BASE.'/api/eventos/listar':
+      EventosController::listarAPI();
       break;
-    case '/api/eventos/inserir':
+    case $CAMINHO_BASE.'/api/eventos/inserir':
+      EventosController::inserirAPI();
       break;
-    case '/api/eventos/alterar':
+    case $CAMINHO_BASE.'/api/eventos/alterar':
+      EventosController::alterarAPI();      
       break;
-    case '/api/eventos/excluir':
+    case $CAMINHO_BASE.'/api/eventos/excluir':
+      EventosController::excluirAPI();
       break;    
-    case '/api/eventos/participantes/listar':
+    case $CAMINHO_BASE.'/api/eventos/participantes/listar':
+
       break;
-    case '/api/eventos/participantes/inserir':
+    case $CAMINHO_BASE.'/api/eventos/participantes/inserir':
       break;
-    case '/api/eventos/participantes/alterar':
+    case $CAMINHO_BASE.'/api/eventos/participantes/alterar':
       break;
-    case '/api/eventos/participantes/excluir':
+    case $CAMINHO_BASE.'/api/eventos/participantes/excluir':
       break;
     //WEB - Requer Autenticação Admin
-    case '/web/eventos/cadastro/form':
+    case $CAMINHO_BASE.'/web/eventos/cadastro/form':
       break;
-    case '/web/eventos/alteracao/form':
+    case $CAMINHO_BASE.'/web/eventos/alteracao/form':
       break;
     //---------------- Fim Eventos -----------------------
-    //---------------- Admin ---------------------------------
+
+    //---------------- Principal -------------------------
+    case $CAMINHO_BASE.'/':
+      RotasController::principalForm();
+      break;
+    case $CAMINHO_BASE.'/login/form':
+      RotasController::loginForm();
+      break;
+    //---------------- Admin -----------------------------
     //API
-    case '/api/admin/inserir':
+    case $CAMINHO_BASE.'/api/admin/inserir':
       break;
     //WEB
-    case '/web/admin/cadastro/form':
+    case $CAMINHO_BASE.'/web/admin/cadastro/form':
       break;
-    case '/web/admin/login':
+    case $CAMINHO_BASE.'/web/admin/login':
+      AdminController::fazLogin();
       break;
-    case '/web/admin/logout':
+    case $CAMINHO_BASE.'/web/admin/logout':
+      AdminController::fazLogout();
       break;
-    //---------------- Fim Admin -----------------------------
+    //---------------- Fim Admin -------------------------
     default:
-      // Não encontrado  
+      ErroController::naoEncontrado();
       break;
+  }
+} catch (\Exception $th) {
+  ErroController::erro($th->getMessage());
 }
