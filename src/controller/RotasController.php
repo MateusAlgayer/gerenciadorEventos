@@ -12,6 +12,9 @@ class RotasController {
     LayoutController::geraLayoutBase("Jubileu Eventos", 'teste');
   }
 
+  public static function cadastroForm() : void {
+    LayoutController::geraLayoutBase("Jubileu Eventos", 'teste');
+  }
 }
 
 ?>
