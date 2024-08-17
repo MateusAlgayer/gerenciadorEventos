@@ -1,7 +1,9 @@
 <?php
+
 require 'src/controller/RotasController.php';
 require 'src/controller/AdminController.php';
 require 'src/controller/EventosController.php';
+require 'src/controller/ParticipantesController.php';
 require 'src/controller/ErroController.php';
 
 $CAMINHO_BASE = '/gerenciadorEventos';
@@ -24,18 +26,23 @@ try {
       EventosController::excluirAPI();
       break;    
     case $CAMINHO_BASE.'/api/eventos/participantes/listar':
-
+      ParticipantesController::listarAPI();
       break;
     case $CAMINHO_BASE.'/api/eventos/participantes/inserir':
+      ParticipantesController::inserirAPI();
       break;
     case $CAMINHO_BASE.'/api/eventos/participantes/alterar':
+      ParticipantesController::alterarAPI();
       break;
     case $CAMINHO_BASE.'/api/eventos/participantes/excluir':
+      ParticipantesController::excluirAPI();
       break;
     //WEB - Requer Autenticação Admin
-    case $CAMINHO_BASE.'/web/eventos/cadastro/form':
+    case $CAMINHO_BASE.'/web/admin/eventos/listar':
       break;
-    case $CAMINHO_BASE.'/web/eventos/alteracao/form':
+    case $CAMINHO_BASE.'/web/admin/eventos/cadastro/form':
+      break;
+    case $CAMINHO_BASE.'/web/admin/eventos/alteracao/form':
       break;
     //---------------- Fim Eventos -----------------------
 

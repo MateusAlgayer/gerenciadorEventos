@@ -25,7 +25,7 @@ class EventosDAO {
   }
 
   public function alterar($id, String $titulo, String $descricao, String $local, DateTimeImmutable $data): bool {
-    $smt = $this->conexao->prepare("UPDATE INTO EVENTO SET TITULO = ?, DESCRICAO = ?, LOCAL = ?, DATAEVENTO = ? WHERE ID = ?");
+    $smt = $this->conexao->prepare("UPDATE EVENTOS SET TITULO = ?, DESCRICAO = ?, LOCAL = ?, DATAEVENTO = ? WHERE ID = ?");
 
     $dataAsString = $data->format(DateTimeInterface::ATOM);
     $smt->bindParam(1, $titulo, PDO::PARAM_STR);
@@ -37,7 +37,7 @@ class EventosDAO {
   }
 
   public function excluir($id): bool {
-    $smt = $this->conexao->prepare("DELETE FROM EVENTO WHERE IDEVENTO = ?");
+    $smt = $this->conexao->prepare("DELETE FROM EVENTOS WHERE ID = ?");
 
     $smt->bindParam(1, $id, PDO::PARAM_INT);
     return $smt->execute();
