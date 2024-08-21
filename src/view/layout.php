@@ -3,10 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?=$title?></title>
+  <title>Jubileu Eventos</title>
+  <style>
+    <?=include 'src/styles/styles.css'?>
+  </style>
 </head>
 <body>
-  <h1><?=$title?></h1>
-  <div><?=$content?></div>
+  <header>
+    <div class="logo">Jubileu Eventos</div>
+  </header>
+  <main>
+    <?=$content?>
+  </main>
+  <footer>
+    &copy; <?=date('Y')?> Eduardo Oliveira & Mateus Algayer.
+  </footer>
 </body>
 </html>

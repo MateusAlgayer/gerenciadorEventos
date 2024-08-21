@@ -1,26 +1,21 @@
 <?php
 
-require_once 'src/utils/api.php';
+require_once 'src/core/api.php';
 require_once 'src/model/UsuariosModel.php';
-require_once 'src/utils/validador.php';
+require_once 'src/core/validador.php';
 
 class UsuariosController {
-  // public static function formInserir(){
-  //   $acao = '/mvc/carros/marca/inserir';
-  //   include __DIR__.'/../view/marcaForm.php';
-  // }
-
   public static function inserir() : void {
-    UsuariosController::inserirInterno();
-    //TODO: Chamar tela necessária.
+    UsuariosController::inserirInterno('A');
+    header('Location: /gerenciadorEventos/');
   }
   
   public static function inserirAPI() : void {
-    UsuariosController::inserirInterno();
+    UsuariosController::inserirInterno('U');
     API::sendResponse($_POST);
   }
 
-  public static function inserirInterno() : void {
+  public static function inserirInterno(String $tipoUsuario) : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
@@ -28,9 +23,11 @@ class UsuariosController {
     Validador::validaCampo('nome');
     Validador::validaCampo('email');
     Validador::validaCampo('senha');
+
+    $senhaCripto = password_hash($_POST['senha'], PASSWORD_BCRYPT);
       
     $service = new UsuariosModel();
-    if(!$service->inserir($_POST['nome'], $_POST['email'], $_POST['senha'])){
+    if(!$service->inserir($_POST['nome'], $_POST['email'], $senhaCripto, $tipoUsuario)){
       throw new Exception("Ocorreu um erro ao inserir o usuário");
     }
   }
