@@ -1,6 +1,6 @@
 <?php
 
-require_once 'src/utils/api.php';
+require_once 'src/core/api.php';
 
 class ErroController {
 

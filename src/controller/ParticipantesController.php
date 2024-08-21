@@ -1,8 +1,8 @@
 <?php
 
-require_once 'src/utils/api.php';
+require_once 'src/core/api.php';
 require_once 'src/model/ParticipantesModel.php';
-require_once 'src/utils/validador.php';
+require_once 'src/core/validador.php';
 
 class ParticipantesController {
   public static function listar() : void{

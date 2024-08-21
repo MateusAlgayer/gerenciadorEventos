@@ -1,8 +1,8 @@
 <?php
 
-require_once 'src/utils/api.php';
+require_once 'src/core/api.php';
 require_once 'src/model/EventosModel.php';
-require_once 'src/utils/validador.php';
+require_once 'src/core/validador.php';
 
 class EventosController {
   public static function listar() : void{
