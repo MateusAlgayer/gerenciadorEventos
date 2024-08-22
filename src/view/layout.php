@@ -11,7 +11,6 @@
 <body>
   <header>
     <div class="logo">Jubileu Eventos</div>
-    <?=$navContent?>
   </header>
   <main>
     <?=$content?>

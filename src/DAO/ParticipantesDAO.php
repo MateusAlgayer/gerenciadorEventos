@@ -9,7 +9,11 @@
     }
 
     public function listar(): array{
-      $smt = $this->conexao->query("SELECT * FROM PARTICIPANTES");
+      $smt = $this->conexao->query('
+        SELECT P.IDUSUARIO, P.IDEVENTO, U.NOME, U.EMAIL, U.TELEFONE, U.REGISTROCRIADO
+        FROM PARTICIPANTES P
+          LEFT OUTER JOIN USUARIOS U ON PARTICIPANTES.IDUSUARIO = USUARIOS.ID
+      ');
       return $smt->fetchAll(PDO::FETCH_ASSOC);
     }
 

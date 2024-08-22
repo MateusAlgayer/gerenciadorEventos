@@ -6,6 +6,8 @@ require 'src/controller/ParticipantesController.php';
 require 'src/controller/UsuarioController.php';
 require 'src/controller/ErroController.php';
 require 'src/controller/AcessoController.php';
+require 'src/routes/Rotas.php';
+require 'src/routes/RotasAdmin.php';
 
 $CAMINHO_BASE = '/gerenciadorEventos';
 
@@ -58,16 +60,38 @@ try {
     //API
     case $CAMINHO_BASE.'/admin/eventos/cadastro/form':
       RotasAdmin::eventosForm();
+    //---------------- Admin -----------------------------
+    case $CAMINHO_BASE.'/admin/':
+      RotasAdmin::dashboardView();
+      break;
+    case $CAMINHO_BASE.'/api/admin/usuario/inserir':
+      UsuariosController::inserirAPI();
       break;
     //WEB
     case $CAMINHO_BASE.'admin/eventos/alteracao/form':
       RotasAdmin::eventosForm();
+    case $CAMINHO_BASE.'/api/admin/usuario/alterar':
+      UsuariosController::alterarAPI();
       break;
     case $CAMINHO_BASE.'/admin/eventos/detalhes/form':
       RotasAdmin::eventosForm();
+    case $CAMINHO_BASE.'/api/admin/usuario/excluir':
+      UsuariosController::excluirAPI();
       break;
     case $CAMINHO_BASE.'/admin/logout':
       AcessoController::fazLogout();
+    case $CAMINHO_BASE.'/web/admin/usuario/inserir':
+      UsuariosController::inserir();
+      break;
+    case $CAMINHO_BASE.'/web/admin/usuario/alterar':
+      UsuariosController::alterar();
+      break;
+    case $CAMINHO_BASE.'/web/admin/usuario/excluir':
+      UsuariosController::excluir();
+      break;
+    //TODO: AdminRotasController
+    case $CAMINHO_BASE.'/web/admin/eventos/alteracao/form':
+      // EventosController::alterar();
       break;
     case $CAMINHO_BASE.'/admin/eventos/inserir':
       EventosController::inserir();

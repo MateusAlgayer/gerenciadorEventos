@@ -87,21 +87,3 @@ hr.solid {
   border-top: 2px solid #bbb;
   margin-bottom: 24px;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-table, th, td {
-  border: 1px solid black;
-}
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-th {
-  background-color: #f2f2f2;
-}
-caption {
-  font-size: 1.5em;
-  margin: 10px;
-}

@@ -18,6 +18,10 @@ class UsuariosModel {
   // public function excluir($id) : bool {
   //   return (new UsuariosDAO())->excluir($id);
   // }
+
+  public function getUsuario(String $email) {
+    return (new UsuariosDAO())->getUsuario($email);
+  }
 }
 
 ?>
