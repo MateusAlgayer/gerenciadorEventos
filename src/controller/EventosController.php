@@ -5,19 +5,14 @@ require_once 'src/model/EventosModel.php';
 require_once 'src/utils/validador.php';
 
 class EventosController {
-  public static function listar() : void{
+  public static function listar() : array {
     $service = new EventosModel();
-    $listaMarcas = $service->getEventos();
-
-    //TODO: Revisar
-    include __DIR__.'/../view/marcaView.php';
+    return $service->getEventos();
   }
 
   public static function listarAPI() : void{
     $service = new EventosModel();
-    $lista = $service->getEventos();
-
-    API::sendResponse($lista);
+    API::sendResponse($service->getEventos());
   }
 
   // public static function formInserir(){
@@ -27,13 +22,13 @@ class EventosController {
 
   public static function inserir() : void {
     EventosController::inserirInterno();
-    //TODO: Chamar tela necessária.
+    header('location: /gerenciadorEventos/admin/');
   }
   
-  public static function inserirAPI() : void {
-    EventosController::inserirInterno();
-    API::sendResponse($_POST);
-  }
+  // public static function inserirAPI() : void {
+  //   EventosController::inserirInterno();
+  //   API::sendResponse($_POST);
+  // }
 
   public static function inserirInterno() : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
@@ -53,13 +48,13 @@ class EventosController {
 
   public static function alterar() : void {
     EventosController::alterarInterno();
-    //TODO: Chamar a tela.
+    header('location: /gerenciadorEventos/admin/');
   }
 
-  public static function alterarAPI() : void {
-    EventosController::alterarInterno();
-    API::sendResponse($_POST);
-  }
+  // public static function alterarAPI() : void {
+  //   EventosController::alterarInterno();
+  //   API::sendResponse($_POST);
+  // }
 
   private static function alterarInterno() : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
@@ -80,13 +75,13 @@ class EventosController {
 
   public static function excluir() : void {
     EventosController::excluirInterno();
-    //TODO: Chamar a tela.
+    header('location: /gerenciadorEventos/admin/');
   }
 
-  public static function excluirAPI() : void {
-    EventosController::excluirInterno();
-    API::sendResponse($_POST);
-  }
+  // public static function excluirAPI() : void {
+  //   EventosController::excluirInterno();
+  //   API::sendResponse($_POST);
+  // }
 
   private static function excluirInterno() : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
@@ -98,6 +93,24 @@ class EventosController {
     if(!$service->excluir($_POST['id'])){
       throw new Exception("Ocorreu um erro ao excluir o evento");
     }
+  }
+
+  public static function getEventoPorId() : array{
+    return EventosController::getEventoPorIdInterno();
+  }
+
+  public static function getEventoPorIdAPI() : void {
+    API::sendResponse(EventosController::getEventoPorIdInterno());
+  }
+
+  public static function getEventoPorIdInterno() : array {
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+      throw new Exception("A requisição deve utilizar o método POST");
+    }
+
+    Validador::validaCampo('id');
+
+    return (new EventosModel())->getEventoPorId($_POST['id']);
   }
 }
 

@@ -18,6 +18,10 @@ class EventosModel {
   public function excluir($id) : bool {
     return (new EventosDAO())->excluir($id);
   }
+
+  public function getEventoPorId($id){
+    return (new EventosDAO())->getEventoPorId($id);
+  }
 }
 
 ?>

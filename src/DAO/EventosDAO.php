@@ -42,6 +42,21 @@ class EventosDAO {
     $smt->bindParam(1, $id, PDO::PARAM_INT);
     return $smt->execute();
   }
+
+  public function getEventoPorId($id) : array {
+    $smt = $this->conexao->prepare("SELECT * FROM EVENTOS WHERE ID = ?");
+
+    $smt->bindParam(1, $id, PDO::PARAM_INT);
+    if(!$smt->execute()){
+      return [];
+    }
+
+    $evento = $smt->fetchAll(PDO::FETCH_ASSOC);
+    if(count($evento) == 1){
+      return $evento[0];
+    }
+    return [];
+  }
 }
 
 ?>

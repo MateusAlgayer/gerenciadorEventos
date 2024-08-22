@@ -35,53 +35,53 @@ class UsuariosController {
     }
   }
 
-  public static function alterar() : void {
-    UsuariosController::alterarInterno();
-    //TODO: Chamar a tela.
-  }
+  // public static function alterar() : void {
+  //   UsuariosController::alterarInterno();
+  //   //TODO: Chamar a tela.
+  // }
 
-  public static function alterarAPI() : void {
-    UsuariosController::alterarInterno();
-    API::sendResponse($_POST);
-  }
+  // public static function alterarAPI() : void {
+  //   UsuariosController::alterarInterno();
+  //   API::sendResponse($_POST);
+  // }
 
-  private static function alterarInterno() : void {
-    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-      throw new Exception("A requisição deve utilizar o método POST");
-    }
+  // private static function alterarInterno() : void {
+  //   if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+  //     throw new Exception("A requisição deve utilizar o método POST");
+  //   }
 
-    Validador::validaCampo('id');
-    Validador::validaCampo('nome');
-    Validador::validaCampo('email');
-    Validador::validaCampo('senha');
+  //   Validador::validaCampo('id');
+  //   Validador::validaCampo('nome');
+  //   Validador::validaCampo('email');
+  //   Validador::validaCampo('senha');
       
-    $service = new UsuariosModel();
-    if(!$service->alterar($_POST['id'], $_POST['nome'], $_POST['email'], $_POST['senha'])){
-      throw new Exception("Ocorreu um erro ao alterar o usuário");
-    }
-  }
+  //   $service = new UsuariosModel();
+  //   if(!$service->alterar($_POST['id'], $_POST['nome'], $_POST['email'], $_POST['senha'])){
+  //     throw new Exception("Ocorreu um erro ao alterar o usuário");
+  //   }
+  // }
 
-  public static function excluir() : void {
-    UsuariosController::excluirInterno();
-    //TODO: Chamar a tela.
-  }
+  // public static function excluir() : void {
+  //   UsuariosController::excluirInterno();
+  //   //TODO: Chamar a tela.
+  // }
 
-  public static function excluirAPI() : void {
-    UsuariosController::excluirInterno();
-    API::sendResponse($_POST);
-  }
+  // public static function excluirAPI() : void {
+  //   UsuariosController::excluirInterno();
+  //   API::sendResponse($_POST);
+  // }
 
-  private static function excluirInterno() : void {
-    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-      throw new Exception("A requisição deve utilizar o método POST");
-    }
+  // private static function excluirInterno() : void {
+  //   if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+  //     throw new Exception("A requisição deve utilizar o método POST");
+  //   }
 
-    Validador::validaCampo('id');
-    $service = new UsuariosModel();
-    if(!$service->excluir($_POST['id'])){
-      throw new Exception("Ocorreu um erro ao excluir o usuário");
-    }
-  }
+  //   Validador::validaCampo('id');
+  //   $service = new UsuariosModel();
+  //   if(!$service->excluir($_POST['id'])){
+  //     throw new Exception("Ocorreu um erro ao excluir o usuário");
+  //   }
+  // }
 }
 
 ?>
