@@ -2,8 +2,9 @@
 
 class LayoutController {
   
-  public static function geraLayoutBase($conteudo){
+  public static function geraLayoutBase($conteudo, String $navBarContent = ""){
     $content = LayoutController::getConteudo($conteudo);
+    $navContent = $navBarContent;
     include __DIR__.'/../view/layout.php';
   }
 
