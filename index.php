@@ -3,7 +3,7 @@
 require 'src/controller/AdminController.php';
 require 'src/controller/EventosController.php';
 require 'src/controller/ParticipantesController.php';
-require 'src/controller/UsuarioController.php';
+require 'src/controller/UsuariosController.php';
 require 'src/controller/ErroController.php';
 require 'src/controller/AcessoController.php';
 require 'src/routes/Rotas.php';
@@ -63,10 +63,13 @@ try {
       break;
     case $CAMINHO_BASE.'/admin/eventos/cadastro/form':
       RotasAdmin::eventosForm();
+      break;
     case $CAMINHO_BASE.'/admin/eventos/alteracao/form':
       RotasAdmin::eventosForm();
+      break;
     case $CAMINHO_BASE.'/admin/eventos/detalhes/form':
       RotasAdmin::eventosForm();
+      break;
     case $CAMINHO_BASE.'/admin/logout':
       AcessoController::fazLogout();
       break;

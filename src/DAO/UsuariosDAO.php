@@ -49,6 +49,21 @@
     //   $smt->bindParam(1, $id, PDO::PARAM_INT);
     //   return $smt->execute();
     // }
+
+    public function getUsuario(String $email){
+      $smt = $this->conexao->prepare("SELECT * FROM USUARIOS WHERE EMAIL = ?");
+
+      $smt->bindParam(1, $email, PDO::PARAM_STR);
+      if(!$smt->execute()){
+        return [];
+      }
+
+      $usuarios = $smt->fetchAll(PDO::FETCH_ASSOC);
+      if(count($usuarios) == 1){
+        return $usuarios[0];
+      }
+      return [];
+    }
   }
 
 ?>
