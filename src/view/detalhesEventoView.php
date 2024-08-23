@@ -8,6 +8,12 @@
 <div class="login-align">
   <div class="login-container">
     <a class="btn" href="/gerenciadorEventos/admin/">Voltar</a>
+    <br>
+    <br>
+    <form action="/gerenciadorEventos/admin/eventos/gerarPDF" method="post" target="_blank">
+      <input type="hidden" value="<?=$evento['ID']?>" name='id' id='id'>
+      <button type="submit" class="btn" href="">Gerar PDF</button>
+    </form>
     <h2><?= $evento['TITULO']?></h2>
     <hr class="solid">
     <p>Descrição: <?= $evento['DESCRICAO']?></p>    

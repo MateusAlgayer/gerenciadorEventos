@@ -51,7 +51,10 @@
     // }
 
     public function getUsuario(String $email){
-      $smt = $this->conexao->prepare("SELECT * FROM USUARIOS WHERE EMAIL = ?");
+      $smt = $this->conexao->prepare("SELECT ID, NOMEUSUARIO, SENHA, EMAIL, TIPOUSUARIO 
+        FROM USUARIOS 
+        WHERE EMAIL = ?
+      ");
 
       $smt->bindParam(1, $email, PDO::PARAM_STR);
       if(!$smt->execute()){

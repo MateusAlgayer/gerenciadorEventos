@@ -80,6 +80,12 @@ try {
     case $CAMINHO_BASE.'/admin/eventos/excluir':
       EventosController::excluir();
       break;
+    case $CAMINHO_BASE.'/admin/eventos/xml':
+      EventosController::geraXMLEventos();
+      break;
+    case $CAMINHO_BASE.'/admin/eventos/gerarPDF':
+      EventosController::gerarPDF();
+      break;
     //---------------- Fim Admin -------------------------
     default:
       ErroController::naoEncontrado();

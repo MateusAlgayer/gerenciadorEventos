@@ -4,11 +4,17 @@ require_once 'src/core/api.php';
 require_once 'src/model/EventosModel.php';
 
 class AdminController {
-  public static function geraTabelaEventos():String{
+  public static function geraTabelaEventos(String $argPesq):String{
     $lista = (new EventosModel())->getEventos();
 
     $table = "";
     foreach ($lista as $evento) {
+      if(!str_contains($evento['TITULO'], $argPesq) && 
+         !str_contains($evento['DESCRICAO'], $argPesq) &&
+         !str_contains($evento['PARTICIPANTES'], $argPesq)){
+        continue;
+      }
+
       $table = $table."<tr>
         <td>{$evento['TITULO']}</td>
         <td>{$evento['DESCRICAO']}</td>

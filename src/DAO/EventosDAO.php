@@ -9,7 +9,14 @@ class EventosDAO {
   }
 
   public function listar(): array{
-    $smt = $this->conexao->query("SELECT ID, TITULO, DESCRICAO, LOCAL, DATAEVENTO FROM EVENTOS");
+    $smt = $this->conexao->query("
+      SELECT E.ID, E.TITULO, E.DESCRICAO, E.LOCAL, E.DATAEVENTO, 
+      COALESCE(GROUP_CONCAT(CONCAT(U.NOMEUSUARIO,' - ',U.EMAIL)), '') AS PARTICIPANTES
+      FROM EVENTOS E 
+        LEFT OUTER JOIN PARTICIPANTES P ON P.IDEVENTO = E.ID
+        LEFT OUTER JOIN USUARIOS U ON U.ID = P.IDUSUARIO
+      GROUP BY E.ID
+    ");
     return $smt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -44,7 +51,15 @@ class EventosDAO {
   }
 
   public function getEventoPorId($id) : array {
-    $smt = $this->conexao->prepare("SELECT ID, TITULO, DESCRICAO, LOCAL, DATAEVENTO FROM EVENTOS WHERE ID = ?");
+    $smt = $this->conexao->prepare("
+      SELECT E.ID, E.TITULO, E.DESCRICAO, E.LOCAL, E.DATAEVENTO, 
+      COALESCE(GROUP_CONCAT(CONCAT(U.NOMEUSUARIO,' - ',U.EMAIL)), '') AS PARTICIPANTES
+      FROM EVENTOS E 
+        LEFT OUTER JOIN PARTICIPANTES P ON P.IDEVENTO = E.ID
+        LEFT OUTER JOIN USUARIOS U ON U.ID = P.IDUSUARIO
+      WHERE E.ID = ?
+      GROUP BY E.ID
+    ");
 
     $smt->bindParam(1, $id, PDO::PARAM_INT);
     if(!$smt->execute()){

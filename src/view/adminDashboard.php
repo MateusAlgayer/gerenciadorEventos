@@ -1,17 +1,24 @@
 <?php
-  $eventos = AdminController::geraTabelaEventos();
+  if(isset($_POST['pesq'])){
+    $argPesq = $_POST['pesq'];
+  } else {
+    $argPesq = '';
+  }
+  $eventos = AdminController::geraTabelaEventos($argPesq);
 ?>
 <body>
   <nav>
-    <a class="btn" href="/gerenciadorEventos/admin/eventos/cadastro/form">Novo evento</a>  
-    <a class="btn" href="">Gerar XML eventos</a>  
-    <a class="btn" href="">Gerar PDF</a> 
+    <a class="btn" href="/gerenciadorEventos/admin/eventos/cadastro/form">Novo evento</a>
+    <a class="btn" href="/gerenciadorEventos/admin/eventos/xml">Gerar XML eventos</a>
   </nav>  
   <br>
-  <div style="max-width: 20%" class="form-group">
-    <label for="pesq">Pesquisar</label>
-    <input type="search" name="pesq" id="pesq"> 
-  </div>
+  <form method="POST">
+    <div style="max-width: 20%" class="form-group">
+      <label for="pesq">Pesquisar</label>
+      <input type="search" name="pesq" id="pesq" value="<?=$argPesq?>"> 
+      <button style="max-width: 120px" class="btn" type="submit">Pesquisar</button>
+    </div>
+  </form>
   <table>
     <caption>Eventos</caption>
     <thead>
