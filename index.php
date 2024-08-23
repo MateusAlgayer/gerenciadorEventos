@@ -1,13 +1,13 @@
 <?php
 
-require 'src/controller/AdminController.php';
-require 'src/controller/EventosController.php';
-require 'src/controller/ParticipantesController.php';
-require 'src/controller/UsuariosController.php';
-require 'src/controller/ErroController.php';
-require 'src/controller/AcessoController.php';
-require 'src/routes/Rotas.php';
-require 'src/routes/RotasAdmin.php';
+require_once 'src/controller/AdminController.php';
+require_once 'src/controller/EventosController.php';
+require_once 'src/controller/ParticipantesController.php';
+require_once 'src/controller/UsuariosController.php';
+require_once 'src/controller/ErroController.php';
+require_once 'src/controller/AcessoController.php';
+require_once 'src/routes/Rotas.php';
+require_once 'src/routes/RotasAdmin.php';
 
 $CAMINHO_BASE = '/gerenciadorEventos';
 
@@ -15,6 +15,7 @@ $requisicao = $_SERVER['REQUEST_URI'];
 try {
   $usaAutenticacao = explode('/', $_SERVER['REQUEST_URI'], 4)[2] === 'admin';
   if($usaAutenticacao && !AcessoController::usuarioEstaLogado()){
+    //vai cair em não encontrado.
     $requisicao = "";
   }
 
@@ -31,9 +32,6 @@ try {
       break;
     case $CAMINHO_BASE.'/api/eventos/participantes/inserir':
       ParticipantesController::inserirAPI();
-      break;
-    case $CAMINHO_BASE.'/api/eventos/participantes/alterar':
-      ParticipantesController::alterarAPI();
       break;
     case $CAMINHO_BASE.'/api/eventos/participantes/excluir':
       ParticipantesController::excluirAPI();
@@ -68,7 +66,7 @@ try {
       RotasAdmin::eventosForm();
       break;
     case $CAMINHO_BASE.'/admin/eventos/detalhes/form':
-      RotasAdmin::eventosForm();
+      RotasAdmin::detalhesEventoView();
       break;
     case $CAMINHO_BASE.'/admin/logout':
       AcessoController::fazLogout();

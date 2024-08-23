@@ -4,12 +4,12 @@ class EventosDAO {
   private $conexao;
 
   public function __construct(){
-    include 'src/db/conexao.php';
+    include_once 'src/db/conexao.php';
     $this->conexao = conectarBaseDados();    
   }
 
   public function listar(): array{
-    $smt = $this->conexao->query("SELECT * FROM EVENTOS");
+    $smt = $this->conexao->query("SELECT ID, TITULO, DESCRICAO, LOCAL, DATAEVENTO FROM EVENTOS");
     return $smt->fetchAll(PDO::FETCH_ASSOC);
   }
 
@@ -44,7 +44,7 @@ class EventosDAO {
   }
 
   public function getEventoPorId($id) : array {
-    $smt = $this->conexao->prepare("SELECT * FROM EVENTOS WHERE ID = ?");
+    $smt = $this->conexao->prepare("SELECT ID, TITULO, DESCRICAO, LOCAL, DATAEVENTO FROM EVENTOS WHERE ID = ?");
 
     $smt->bindParam(1, $id, PDO::PARAM_INT);
     if(!$smt->execute()){

@@ -4,44 +4,38 @@
     private $conexao;
 
     public function __construct(){
-      include 'src/db/conexao.php';
+      include_once 'src/db/conexao.php';
       $this->conexao = conectarBaseDados();    
     }
 
-    public function listar(): array{
-      $smt = $this->conexao->query('
-        SELECT P.IDUSUARIO, P.IDEVENTO, U.NOME, U.EMAIL, U.TELEFONE, U.REGISTROCRIADO
+    public function listar($idEvento): array{
+      $smt = $this->conexao->prepare('
+        SELECT P.IDUSUARIO, P.IDEVENTO, U.NOMEUSUARIO, U.EMAIL, U.REGISTROCRIADO
         FROM PARTICIPANTES P
-          LEFT OUTER JOIN USUARIOS U ON PARTICIPANTES.IDUSUARIO = USUARIOS.ID
+          LEFT OUTER JOIN USUARIOS U ON P.IDUSUARIO = U.ID
+        WHERE P.IDEVENTO = ?
       ');
+
+      $smt->bindParam(1, $idEvento, PDO::PARAM_INT);
+      if(!$smt->execute()){
+        return [];
+      }
+
       return $smt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function inserir($idEvento, String $nome, String $email, String $telefone): bool {
-      $smt = $this->conexao->prepare("INSERT INTO PARTICIPANTES (IDEVENTO, NOME, EMAIL, TELEFONE) VALUES (?,?,?,?)");
+    public function inserir($idUsuario, $idEvento): bool {
+      $smt = $this->conexao->prepare("INSERT INTO PARTICIPANTES (IDUSUARIO, IDEVENTO) VALUES (?,?)");
 
-      $smt->bindParam(1, $idEvento, PDO::PARAM_INT);
-      $smt->bindParam(2, $nome, PDO::PARAM_STR);
-      $smt->bindParam(3, $email, PDO::PARAM_STR);
-      $smt->bindParam(4, $telefone, PDO::PARAM_STR);
+      $smt->bindParam(1, $idUsuario, PDO::PARAM_INT);
+      $smt->bindParam(2, $idEvento, PDO::PARAM_INT);
       return $smt->execute();
     }
 
-    public function alterar($id, $idEvento, String $nome, String $email, String $telefone): bool {
-      $smt = $this->conexao->prepare("UPDATE PARTICIPANTES SET NOME = ?, EMAIL = ?, TELEFONE = ? WHERE ID = ? AND IDEVENTO = ?");
+    public function excluir($idUsuario, $idEvento): bool {
+      $smt = $this->conexao->prepare("DELETE FROM PARTICIPANTES WHERE IDUSUARIO = ? AND IDEVENTO = ?");
 
-      $smt->bindParam(1, $nome, PDO::PARAM_STR);
-      $smt->bindParam(2, $email, PDO::PARAM_STR);
-      $smt->bindParam(3, $telefone, PDO::PARAM_STR);
-      $smt->bindParam(4, $id, PDO::PARAM_INT);
-      $smt->bindParam(5, $idEvento, PDO::PARAM_INT);
-      return $smt->execute();
-    }
-
-    public function excluir($id, $idEvento): bool {
-      $smt = $this->conexao->prepare("DELETE FROM PARTICIPANTES WHERE ID = ? AND IDEVENTO = ?");
-
-      $smt->bindParam(1, $id, PDO::PARAM_INT);
+      $smt->bindParam(1, $idUsuario, PDO::PARAM_INT);
       $smt->bindParam(2, $idEvento, PDO::PARAM_INT);
       return $smt->execute();
     }

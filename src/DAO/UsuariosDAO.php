@@ -4,7 +4,7 @@
     private $conexao;
 
     public function __construct(){
-      include 'src/db/conexao.php';
+      include_once 'src/db/conexao.php';
       $this->conexao = conectarBaseDados();    
     }
 

@@ -5,7 +5,7 @@ require_once 'src/core/api.php';
 class ErroController {
 
   public static function naoEncontrado() : void{
-    include __DIR__.'/../view/naoEncontradoView.php';
+    include_once __DIR__.'/../view/naoEncontradoView.php';
   }
 
   public static function erro(String $msgErro) : void {
@@ -24,7 +24,7 @@ class ErroController {
 
   private static function erroTela(String $msgErro) : void{
     $msgErroTela = $msgErro;
-    include __DIR__.'/../view/erroView.php';
+    include_once __DIR__.'/../view/erroView.php';
   }
 }
 
