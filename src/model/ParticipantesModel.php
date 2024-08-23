@@ -3,20 +3,16 @@
   require_once 'src/DAO/ParticipantesDAO.php';
 
   class ParticipantesModel {
-    public function getParticipantes() : array {
-      return (new ParticipantesDAO())->listar();
+    public function getParticipantes($id) : array {
+      return (new ParticipantesDAO())->listar($id);
     }
   
-    public function inserir($idEvento, String $nome, String $email, String $telefone) : bool {
-      return (new ParticipantesDAO())->inserir($idEvento, $nome, $email, $telefone);
+    public function inserir($idUsuario, $idEvento) : bool {
+      return (new ParticipantesDAO())->inserir($idUsuario, $idEvento);
     }
   
-    public function alterar($id, $idEvento, String $nome, String $email, String $telefone) : bool {
-      return (new ParticipantesDAO())->alterar($id, $idEvento, $nome, $email, $telefone);
-    }
-  
-    public function excluir($id, $idEvento) : bool {
-      return (new ParticipantesDAO())->excluir($id, $idEvento);
+    public function excluir($idUsuario, $idEvento) : bool {
+      return (new ParticipantesDAO())->excluir($idUsuario, $idEvento);
     }
   }
 

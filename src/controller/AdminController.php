@@ -4,27 +4,33 @@ require_once 'src/core/api.php';
 require_once 'src/model/EventosModel.php';
 
 class AdminController {
-  public static function geraTabelaEventos():String{
+  public static function geraTabelaEventos(String $argPesq):String{
     $lista = (new EventosModel())->getEventos();
 
     $table = "";
     foreach ($lista as $evento) {
+      if(!str_contains($evento['TITULO'], $argPesq) && 
+         !str_contains($evento['DESCRICAO'], $argPesq) &&
+         !str_contains($evento['PARTICIPANTES'], $argPesq)){
+        continue;
+      }
+
       $table = $table."<tr>
-        <td>{$evento['titulo']}</td>
-        <td>{$evento['descricao']}</td>
-        <td>{$evento['local']}</td>
-        <td>{$evento['dataEvento']}</td>
+        <td>{$evento['TITULO']}</td>
+        <td>{$evento['DESCRICAO']}</td>
+        <td>{$evento['LOCAL']}</td>
+        <td>{$evento['DATAEVENTO']}</td>
         <td>
           <form action='/gerenciadorEventos/admin/eventos/detalhes/form' method='POST'>
-            <input type='hidden' value='{$evento['id']}' name='id' id='id'>
+            <input type='hidden' value='{$evento['ID']}' name='id' id='id'>
             <button type='submit' class='btn'>Detalhes</button>
           </form>
           <form action='/gerenciadorEventos/admin/eventos/alteracao/form' method='POST'>
-            <input type='hidden' value='{$evento['id']}' name='id' id='id'>
+            <input type='hidden' value='{$evento['ID']}' name='id' id='id'>
             <button type='submit' class='btn'>Alterar</button>
           </form>
           <form action='/gerenciadorEventos/admin/eventos/excluir' method='POST'>
-            <input type='hidden' value='{$evento['id']}' name='id' id='id'>
+            <input type='hidden' value='{$evento['ID']}' name='id' id='id'>
             <button type='submit' class='btn'>Excluir</button>
           </form>
         </td>

@@ -9,7 +9,7 @@ class AcessoController {
   public static function fazLogin(){
     $usuarioLogado = AcessoController::fazLoginInterno();
 
-    if($usuarioLogado['tipoUsuario'] <> 'A'){
+    if($usuarioLogado['TIPOUSUARIO'] <> 'A'){
       throw new Exception("O usuário informado não possui acesso a plataforma Web");
     }
 
@@ -32,12 +32,8 @@ class AcessoController {
     Validador::validaCampo('senha');
 
     $usuario = (new UsuariosModel())->getUsuario($_POST['email']);
-    if(!isset($usuario) || !password_verify($_POST['senha'], $usuario['senha'])){
+    if(!isset($usuario) || !password_verify($_POST['senha'], $usuario['SENHA'])){
       throw new Exception("Usuário ou senha não estão corretos");
-    }
-
-    if($usuario['tipoUsuario'] <> 'A'){
-      throw new Exception("O usuário informado não possui acesso a plataforma Web");
     }
 
     return $usuario;
