@@ -29,12 +29,13 @@ class AcessoController {
     }
     
     $dados = json_decode(file_get_contents("php://input"));
-    $usuario = AcessoController::fazLoginInterno($dados->email, $dados->senha);
+    $usuario = AcessoController::fazLoginInterno($dados->login, $dados->senha);
     API::sendResponse(
       array(
         'idUsuario' => $usuario['ID'],
         'nome' => $usuario['NOMEUSUARIO'],
         'email' => $usuario['EMAIL'],
+        'login' => $usuario['EMAIL'],
         'senha' => $usuario['SENHA']
       )
     );
