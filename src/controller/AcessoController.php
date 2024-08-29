@@ -7,7 +7,11 @@ require_once 'src/model/UsuariosModel.php';
 class AcessoController {
   
   public static function fazLogin(){
-    $usuarioLogado = AcessoController::fazLoginInterno();
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+      throw new Exception("A requisição deve utilizar o método POST");
+    }
+    
+    $usuarioLogado = AcessoController::fazLoginInterno($_POST['email'], $_POST['senha']);
 
     if($usuarioLogado['TIPOUSUARIO'] <> 'A'){
       throw new Exception("O usuário informado não possui acesso a plataforma Web");
@@ -20,19 +24,28 @@ class AcessoController {
   }
 
   public static function fazLoginAPI() : void {
-    API::sendResponse(AcessoController::fazLoginInterno());
-  }
-
-  private static function fazLoginInterno() : array{
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
+    
+    $dados = json_decode(file_get_contents("php://input"));
+    $usuario = AcessoController::fazLoginInterno($dados->email, $dados->senha);
+    API::sendResponse(
+      array(
+        'idUsuario' => $usuario['ID'],
+        'nome' => $usuario['NOMEUSUARIO'],
+        'email' => $usuario['EMAIL'],
+        'senha' => $usuario['SENHA']
+      )
+    );
+  }
 
-    Validador::validaCampo('email');
-    Validador::validaCampo('senha');
+  private static function fazLoginInterno(String $email, String $senha) : array{
+    Validador::validaCampo('email', $email);
+    Validador::validaCampo('senha', $senha);
 
-    $usuario = (new UsuariosModel())->getUsuario($_POST['email']);
-    if(!isset($usuario) || !password_verify($_POST['senha'], $usuario['SENHA'])){
+    $usuario = (new UsuariosModel())->getUsuario($email);
+    if(!isset($usuario) || !password_verify($senha, $usuario['SENHA'])){
       throw new Exception("Usuário ou senha não estão corretos");
     }
 

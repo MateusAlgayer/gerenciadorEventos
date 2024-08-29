@@ -6,78 +6,35 @@ require_once 'src/core/validador.php';
 
 class UsuariosController {
   public static function inserir() : void {
-    UsuariosController::inserirInterno('A');
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+      throw new Exception("A requisição deve utilizar o método POST");
+    }
+    
+    UsuariosController::inserirInterno($_POST['nome'], $_POST['email'], $_POST['senha'], 'A');
     header('location: /gerenciadorEventos/');
   }
   
   public static function inserirAPI() : void {
-    UsuariosController::inserirInterno('U');
-    API::sendResponse($_POST);
-  }
-
-  public static function inserirInterno(String $tipoUsuario) : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
 
-    Validador::validaCampo('nome');
-    Validador::validaCampo('email');
-    Validador::validaCampo('senha');
+    $dados = json_decode(file_get_contents("php://input"));
+    UsuariosController::inserirInterno($dados->nome, $dados->email, $dados->senha, 'U');
+    API::sendResponse($dados);
+  }
 
-    $senhaCripto = password_hash($_POST['senha'], PASSWORD_BCRYPT);
+  public static function inserirInterno($nome, $email, $senha, String $tipoUsuario) : void {
+    Validador::validaCampo('nome', $nome);
+    Validador::validaCampo('email', $email);
+    Validador::validaCampo('senha', $senha);
+
+    $senhaCripto = password_hash($senha, PASSWORD_BCRYPT);
     $service = new UsuariosModel();
-    if(!$service->inserir($_POST['nome'], $_POST['email'], $senhaCripto, $tipoUsuario)){
+    if(!$service->inserir($nome, $email, $senhaCripto, $tipoUsuario)){
       throw new Exception("Ocorreu um erro ao inserir o usuário");
     }
   }
-
-  // public static function alterar() : void {
-  //   UsuariosController::alterarInterno();
-  //   //TODO: Chamar a tela.
-  // }
-
-  // public static function alterarAPI() : void {
-  //   UsuariosController::alterarInterno();
-  //   API::sendResponse($_POST);
-  // }
-
-  // private static function alterarInterno() : void {
-  //   if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-  //     throw new Exception("A requisição deve utilizar o método POST");
-  //   }
-
-  //   Validador::validaCampo('id');
-  //   Validador::validaCampo('nome');
-  //   Validador::validaCampo('email');
-  //   Validador::validaCampo('senha');
-      
-  //   $service = new UsuariosModel();
-  //   if(!$service->alterar($_POST['id'], $_POST['nome'], $_POST['email'], $_POST['senha'])){
-  //     throw new Exception("Ocorreu um erro ao alterar o usuário");
-  //   }
-  // }
-
-  // public static function excluir() : void {
-  //   UsuariosController::excluirInterno();
-  //   //TODO: Chamar a tela.
-  // }
-
-  // public static function excluirAPI() : void {
-  //   UsuariosController::excluirInterno();
-  //   API::sendResponse($_POST);
-  // }
-
-  // private static function excluirInterno() : void {
-  //   if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-  //     throw new Exception("A requisição deve utilizar o método POST");
-  //   }
-
-  //   Validador::validaCampo('id');
-  //   $service = new UsuariosModel();
-  //   if(!$service->excluir($_POST['id'])){
-  //     throw new Exception("Ocorreu um erro ao excluir o usuário");
-  //   }
-  // }
 }
 
 ?>

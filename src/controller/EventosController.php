@@ -12,105 +12,111 @@ class EventosController {
 
   public static function listarAPI() : void{
     $service = new EventosModel();
-    API::sendResponse($service->getEventos());
-  }
 
-  // public static function formInserir(){
-  //   $acao = '/mvc/carros/marca/inserir';
-  //   include __DIR__.'/../view/marcaForm.php';
-  // }
+    $result = [];
+    foreach ($service->getEventos() as $evento) {
+      $result[] = array(
+        'idEvento' => $evento['ID'],
+        'titulo' => $evento['TITULO'],
+        'descricao' => $evento['DESCRICAO'],
+        'local' => $evento['LOCAL'],
+        'data' => $evento['DATAEVENTO']
+      );
+    }
+
+    API::sendResponse($result);
+  }
 
   public static function inserir() : void {
-    EventosController::inserirInterno();
-    header('location: /gerenciadorEventos/admin/');
-  }
-  
-  // public static function inserirAPI() : void {
-  //   EventosController::inserirInterno();
-  //   API::sendResponse($_POST);
-  // }
-
-  public static function inserirInterno() : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
-
-    Validador::validaCampo('titulo');
-    Validador::validaCampo('descricao');
-    Validador::validaCampo('local');
-    Validador::validaCampo('dataEvento');
+    
+    EventosController::inserirInterno($_POST['titulo'],$_POST['descricao'],$_POST['local'],$_POST['dataEvento']);
+    header('location: /gerenciadorEventos/admin/');
+  }
+  
+  public static function inserirInterno($titulo, $descricao, $local, $dataEvento) : void {
+    Validador::validaCampo('titulo', $titulo);
+    Validador::validaCampo('descricao', $descricao);
+    Validador::validaCampo('local', $local);
+    Validador::validaCampo('dataEvento', $dataEvento);
       
     $service = new EventosModel();
-    if(!$service->inserir($_POST['titulo'], $_POST['descricao'], $_POST['local'], new DateTimeImmutable($_POST['dataEvento']))){
+    if(!$service->inserir($titulo, $descricao, $local, new DateTimeImmutable($dataEvento))){
       throw new Exception("Ocorreu um erro ao inserir o evento");
     }
   }
 
   public static function alterar() : void {
-    EventosController::alterarInterno();
-    header('location: /gerenciadorEventos/admin/');
-  }
-
-  // public static function alterarAPI() : void {
-  //   EventosController::alterarInterno();
-  //   API::sendResponse($_POST);
-  // }
-
-  private static function alterarInterno() : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
+    
+    EventosController::alterarInterno($_POST['id'],$_POST['titulo'],$_POST['descricao'],$_POST['local'],$_POST['dataEvento']);
+    header('location: /gerenciadorEventos/admin/');
+  }
 
-    Validador::validaCampo('id');
-    Validador::validaCampo('titulo');
-    Validador::validaCampo('descricao');
-    Validador::validaCampo('local');
-    Validador::validaCampo('dataEvento');
+  private static function alterarInterno($id, $titulo,$descricao,$local,$dataEvento) : void {
+    Validador::validaCampo('id', $id);
+    Validador::validaCampo('titulo', $titulo);
+    Validador::validaCampo('descricao', $descricao);
+    Validador::validaCampo('local', $local);
+    Validador::validaCampo('dataEvento', $dataEvento);
       
     $service = new EventosModel();
-    if(!$service->alterar($_POST['id'], $_POST['titulo'], $_POST['descricao'], $_POST['local'], new DateTimeImmutable($_POST['dataEvento']))){
+    if(!$service->alterar($id, $titulo, $descricao, $local, new DateTimeImmutable($dataEvento))){
       throw new Exception("Ocorreu um erro ao alterar o evento");
     }
   }
 
   public static function excluir() : void {
-    EventosController::excluirInterno();
-    header('location: /gerenciadorEventos/admin/');
-  }
-
-  // public static function excluirAPI() : void {
-  //   EventosController::excluirInterno();
-  //   API::sendResponse($_POST);
-  // }
-
-  private static function excluirInterno() : void {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
+    
+    EventosController::excluirInterno($_POST['id']);
+    header('location: /gerenciadorEventos/admin/');
+  }
 
-    Validador::validaCampo('id');
+  private static function excluirInterno($id) : void {
+    Validador::validaCampo('id', $id);
     $service = new EventosModel();
-    if(!$service->excluir($_POST['id'])){
+    if(!$service->excluir($id)){
       throw new Exception("Ocorreu um erro ao excluir o evento");
     }
   }
 
   public static function getEventoPorId() : array{
-    return EventosController::getEventoPorIdInterno();
-  }
-
-  public static function getEventoPorIdAPI() : void {
-    API::sendResponse(EventosController::getEventoPorIdInterno());
-  }
-
-  public static function getEventoPorIdInterno() : array {
     if($_SERVER['REQUEST_METHOD'] !== 'POST'){
       throw new Exception("A requisição deve utilizar o método POST");
     }
 
-    Validador::validaCampo('id');
+    return EventosController::getEventoPorIdInterno($_POST['id']);
+  }
 
-    return (new EventosModel())->getEventoPorId($_POST['id']);
+  public static function getEventoPorIdAPI() : void {
+    if($_SERVER['REQUEST_METHOD'] !== 'POST'){
+      throw new Exception("A requisição deve utilizar o método POST");
+    }
+    
+    $dados = json_decode(file_get_contents("php://input"));
+    
+    $evento = EventosController::getEventoPorIdInterno($dados->id);
+    API::sendResponse(array(
+        'idEvento' => $evento['ID'],
+        'titulo' => $evento['TITULO'],
+        'descricao' => $evento['DESCRICAO'],
+        'local' => $evento['LOCAL'],
+        'data' => $evento['DATAEVENTO']
+      )
+    );
+  }
+
+  public static function getEventoPorIdInterno($id) : array {
+    Validador::validaCampo('id', $id);
+
+    return (new EventosModel())->getEventoPorId($id);
   }
 
   public static function geraXMLEventos() : void {
