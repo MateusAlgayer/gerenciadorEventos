@@ -14,7 +14,8 @@ class EventosController {
     $service = new EventosModel();
 
     $result = [];
-    foreach ($service->getEventos() as $evento) {
+    $eventos = $service->getEventos();
+    foreach ($eventos as $evento) {
       $result[] = array(
         'idEvento' => $evento['ID'],
         'titulo' => $evento['TITULO'],
