@@ -16,7 +16,7 @@
   <main>
     <?=$content?>
   </main>
-  <footer>
+  <footer style="position:absolute; bottom: 0px">
     &copy; <?=date('Y')?> Eduardo Oliveira & Mateus Algayer.
   </footer>
 </body>
