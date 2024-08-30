@@ -21,7 +21,14 @@ class UsuariosController {
 
     $dados = json_decode(file_get_contents("php://input"));
     UsuariosController::inserirInterno($dados->nome, $dados->email, $dados->senha, 'U');
-    API::sendResponse($dados);
+    API::sendResponse(
+      array(
+        'idUsuario' => 999,
+        'nome' => $dados->nome,
+        'email' => $dados->email,
+        'senha' => $dados->senha,
+      )
+    );
   }
 
   public static function inserirInterno($nome, $email, $senha, String $tipoUsuario) : void {
