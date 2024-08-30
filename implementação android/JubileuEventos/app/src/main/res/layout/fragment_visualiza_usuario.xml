@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.fragments.VisualizaUsuarioFragment">
+
+   <ImageView
+       android:layout_width="128dp"
+       android:layout_height="128dp"
+       android:id="@+id/ivUsuarioImagem"
+       android:src="@drawable/ic_usuario"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       android:layout_marginTop="120dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUsuarioRotuloNome"
+        android:text="Nome: "
+        app:layout_constraintTop_toBottomOf="@+id/ivUsuarioImagem"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="32dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUsuarioVisualizaNome"
+        android:text="Nome "
+        app:layout_constraintTop_toBottomOf="@+id/ivUsuarioImagem"
+        app:layout_constraintStart_toEndOf="@+id/tvUsuarioRotuloNome"
+        android:layout_marginTop="32dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUsuarioRotuloEmail"
+        android:text="E-mail: "
+        app:layout_constraintTop_toBottomOf="@+id/tvUsuarioRotuloNome"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="32dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUsuarioVisualizaEmail"
+        android:text="E-mail "
+        app:layout_constraintTop_toBottomOf="@+id/tvUsuarioRotuloNome"
+        app:layout_constraintStart_toEndOf="@+id/tvUsuarioRotuloEmail"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUsuarioRotuloLogin"
+        android:text="Login: "
+        app:layout_constraintTop_toBottomOf="@+id/tvUsuarioRotuloEmail"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="32dp"
+        android:visibility="invisible"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvUsuarioVisualizaLogin"
+        android:text="Login "
+        app:layout_constraintTop_toBottomOf="@+id/tvUsuarioRotuloEmail"
+        app:layout_constraintStart_toEndOf="@+id/tvUsuarioRotuloLogin"
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

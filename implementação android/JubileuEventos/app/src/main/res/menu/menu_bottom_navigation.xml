@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/visualizaEventosFragment"
+        android:title="Eventos"
+        android:icon="@drawable/ic_eventos"/>
+    <item
+        android:id="@+id/visualizaUsuarioFragment"
+        android:title="Usuário"
+        android:icon="@drawable/ic_usuario"/>
+</menu>

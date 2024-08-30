@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.jubileueventos.view.fragments.LoginFragment"
+        android:label="@string/fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/acao_LoginFragment_VisualizaEventosFragment"
+            app:destination="@id/visualizaEventosFragment" />
+        <action
+            android:id="@+id/acao_LoginFragment_CadastroUsuarioFragment"
+            app:destination="@id/cadastroUsuarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/visualizaEventosFragment"
+        android:name="com.example.jubileueventos.view.fragments.VisualizaEventosFragment"
+        android:label="@string/fragment_visualiza_evento"
+        tools:layout="@layout/fragment_visualiza_eventos" />
+    <fragment
+        android:id="@+id/visualizaUsuarioFragment"
+        android:name="com.example.jubileueventos.view.fragments.VisualizaUsuarioFragment"
+        android:label="@string/fragment_visualiza_usuario"
+        tools:layout="@layout/fragment_visualiza_usuario" >
+        <action
+            android:id="@+id/acao_VisualizaUsuarioFragment_CadastroUsuarioFragment"
+            app:destination="@id/cadastroUsuarioFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cadastroUsuarioFragment"
+        android:name="com.example.jubileueventos.view.fragments.CadastroUsuarioFragment"
+        android:label="@string/fragment_cadastro_usuario"
+        tools:layout="@layout/fragment_cadastro_usuario" />
+    <action
+        android:id="@+id/acao_global_cadastroUsuarioFragment"
+        app:destination="@id/cadastroUsuarioFragment" />
+</navigation>
