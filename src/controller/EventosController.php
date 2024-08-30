@@ -21,7 +21,8 @@ class EventosController {
         'titulo' => $evento['TITULO'],
         'descricao' => $evento['DESCRICAO'],
         'local' => $evento['LOCAL'],
-        'data' => $evento['DATAEVENTO']
+        'data' => $evento['DATAEVENTO'],
+        'participantes_id' => $evento['PARTICIPANTES_ID'],
       );
     }
 
